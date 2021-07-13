@@ -16,6 +16,12 @@ Restaurant.init({ // init method defines the table columns and their types.
 	sequelize,  // What database is our table stored in
     timestamps: false, //This setting avoids a created_at column appearing.
     //modelName: 'Restaurant'
+    
+  // I don't want createdAt
+  //createdAt: false,
+
+  // I want updatedAt to actually be called updateTimestamp
+  //updatedAt: 'updateTimestamp'
 });
 
 

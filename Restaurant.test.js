@@ -10,7 +10,7 @@ describe('Restaurant Database', () => { //describe
         by setting 'force:true' the tables are recreated each time the 
         test suite is run.
 		*/
-		await sequelize.sync({force: true}) 
+		await sequelize.sync({force: true}) // This creates the table, dropping it first if it already existed.
 		/**
 		* sequelize.sync() performs a SQL query to the database and creates tables (based on our class models).
 		* { force: true } parameter forces the tables to be recreated each time the test suite is run 
@@ -51,8 +51,9 @@ describe('Restaurant Database', () => { //describe
 		expect(testRestaurant.rating).toBe(4.5);
 	})
 
+	//Association test -To check if Restaurants and Menu are connected
 	test('Restaurants can have many menus', async () => {
-        const restaurant = await Restaurant.create({name: 'Pita House',location:'Texas',contact_no:345678965,rating:4})
+        const restaurant = await Restaurant.create({name: 'Pita House',location:'Schaumburg',contact_no:345678965,rating:4})
 		const appetizers = await Menu.create({title: 'appetizers'});
 		const wraps=await Menu.create({title: 'wraps'});
 		const drinks=await Menu.create({title:'drinks'});
@@ -63,10 +64,11 @@ describe('Restaurant Database', () => { //describe
 		await restaurant.addMenu(drinks);
 		await restaurant.addMenu(desserts);
 		
+		
 		const menus = await restaurant.getMenus();
 		expect(menus.length).toBe(3)
 		expect(menus[0] instanceof Menu).toBeTruthy
-       // expect(menus[0].title).toBe('set 1');
+        expect(menus[0].title).toBe('appetizers');
 	})
 
 })
